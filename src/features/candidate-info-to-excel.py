@@ -76,16 +76,26 @@ for office in df_all[office_col].unique():
     df_office = df_all[df_all[office_col] == office]
     
     # Check number in each party running
-    num_running = df_office.pivot_table(columns=['Party'],
-                                        aggfunc='size')
+    if 'primary' in filename:
+        num_running = df_office.pivot_table(columns=['Party'],
+                                            aggfunc='size')
+
+    # What counts as contested is different in general
+    if 'general' in filename:
+        num_running = df_office.pivot_table(columns=['For the Office Of...'],
+                                            aggfunc='size')
     
     # Loop through each party and specify if it is contested
     #...obviously this is only for primary
     for party in num_running.index:
         
         if num_running[party] < 2:
-            df_all['Contested'][(df_all[office_col] == office)
-                                & (df_all['Party'] == party)] = 'no'
+            if 'primary' in filename:
+                df_all['Contested'][(df_all[office_col] == office)
+                                    & (df_all['Party'] == party)] = 'no'
+
+            if 'general' in filename:
+                df_all['Contested'][(df_all[office_col] == office)] = 'no'
 
 # Split into contested and uncontested
 df_contested = df_all[df_all['Contested'] == 'yes']
@@ -98,5 +108,8 @@ with pd.ExcelWriter(f'data/processed/candidate-information/{filename}.xlsx') as 
                           index=False)
     df_uncontested.to_excel(writer, sheet_name='uncontested',
                             index=False)
+
+# Also write out to a different excel to be the contact information for all candidates
+df_all.to_excel('data/processed/candidate-information/candidate-contact.xlsx', index=False)
 
     

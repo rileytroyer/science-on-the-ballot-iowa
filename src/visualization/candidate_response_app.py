@@ -19,19 +19,20 @@ styles = {
 }
 
 # Read in all json files
-with open('congress.json') as geofile:
+map_dir = 'data/processed/map-files/'
+with open(map_dir + 'congress.json') as geofile:
     congress_map = json.load(geofile)
-with open('house.json') as geofile:
+with open(map_dir + 'house.json') as geofile:
     house_map = json.load(geofile)
-with open('senate.json') as geofile:
+with open(map_dir + 'senate.json') as geofile:
     senate_map = json.load(geofile)
-with open('us-senate.json') as geofile:
+with open(map_dir + 'us-senate.json') as geofile:
     us_senate_map = json.load(geofile)
-with open('gov.json') as geofile:
+with open(map_dir + 'gov.json') as geofile:
     gov_map = json.load(geofile)
-with open('sec-ag.json') as geofile:
+with open(map_dir + 'sec-ag.json') as geofile:
     sec_ag_map = json.load(geofile)
-with open('sec-state.json') as geofile:
+with open(map_dir + 'sec-state.json') as geofile:
     sec_state_map = json.load(geofile)
 
 # Create dictionary to store and reference all maps
@@ -103,7 +104,7 @@ def parse_qualtrics(filepathname):
     return qualtrics
 
 # Read in and drop rows with no responses
-response_filename = 'responses-qualtrics-latest.xlsx'
+response_filename = 'data/raw/responses/responses-qualtrics-latest.xlsx'
 qualtrics = parse_qualtrics(response_filename).dropna(subset='Responses')
 
 # Create a dataframe for each race and store in dictionary
@@ -122,7 +123,7 @@ for race in qualtrics['Race'].unique():
     responses_by_race[race] = race_df
 
 # Read in file with candidate contact info
-contact_filename = 'candidate-contact.xlsx'
+contact_filename = 'data/processed/candidate-information/candidate-contact.xlsx'
 contact_df = pd.read_excel(contact_filename)
 
 # Add in contact
@@ -340,6 +341,5 @@ def display_click_data(clickData, race_map_name):
 
     return 'Please select a location on the map.'
 
-
 if __name__ == '__main__':
-    app.run_server(debug=False)
+    app.run_server(debug=True)
