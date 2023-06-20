@@ -36,9 +36,13 @@ The raw shape files need some more processing to be used in the visualization. T
 
 
 
-
-
 ### Visualization
+
+The script located at src/visualization/candidate_response_app.py will run a python Dash app on port 8050. 
+
+I run my code in a docker container. To get this to work I needed to add the host argument to `app.run_server(debug=True, host='0.0.0.0')`. When you host this you will want to remove the host argument.
+
+To host the application publically I have used https://www.pythonanywhere.com. There are some basic instructions on how to do this here: https://github.com/conradho/dashingdemo
 
 
 
