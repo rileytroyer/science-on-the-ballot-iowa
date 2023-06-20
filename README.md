@@ -12,7 +12,7 @@ Make sure to run any .py files from the base project directory and not within a 
 
 Running this requires Java to be installed on your computer. 
 
-Install via `sudo apt install default-jre `
+Install via `sudo apt install default-jre`
 
 This python script is located at src/features/candidate-info-to-excel.py
 

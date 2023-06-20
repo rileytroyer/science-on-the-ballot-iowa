@@ -342,4 +342,4 @@ def display_click_data(clickData, race_map_name):
     return 'Please select a location on the map.'
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=True, host='0.0.0.0')

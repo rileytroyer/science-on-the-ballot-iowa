@@ -38,15 +38,19 @@ gov_gdf.to_file(interim_map_dir + 'gov.json', driver='GeoJSON')
 sec_ag_gdf.to_file(interim_map_dir + 'sec-ag.json', driver='GeoJSON')
 sec_state_gdf.to_file(interim_map_dir + 'sec-state.json', driver='GeoJSON')
 
-# Read in json file for house senate and congress, these have identifiable names
-for filename in ['house.json', 'senate.json', 'congress.json']:
+# Loop through each json file and district and add identifier id which is name of district
+filenames = ['house.json', 'senate.json', 'congress.json']
+ids = ['State Representative District ', 'State Senator District ',
+       'United States Representative District ']
+
+for n, filename in enumerate(filenames):
     
     with open(interim_map_dir + filename) as geofile:
         j_file = json.load(geofile)
         
     # Create an id field
     for feature in j_file['features']:
-        feature['id'] = feature['properties']['NAME']
+        feature['id'] = ids[n] + feature['properties']['DISTRICT']
 
     # Write to new json file
     with open(processed_map_dir + filename, 'w') as f:
@@ -72,7 +76,7 @@ with open(interim_map_dir + filename) as geofile:
 
 # Create an id field
 for feature in j_file['features']:
-    feature['id'] = 'Governor'
+    feature['id'] = 'Governor and Lt. Governor'
 
 # Write to new json file
 with open(processed_map_dir + filename, 'w') as f:
@@ -86,7 +90,7 @@ with open(interim_map_dir + filename) as geofile:
 
 # Create an id field
 for feature in j_file['features']:
-    feature['id'] = 'Secretary of Agriculture and Land Stewardship'
+    feature['id'] = 'Secretary of Agriculture'
 
 # Write to new json file
 with open(processed_map_dir + filename, 'w') as f:
